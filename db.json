@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "abc@mail.com",
+      "password": "12345678",
+      "name": "Admin"
+    }
+  ],
+  "bill": {
+    "value": 1000,
+    "currency": "USD"
+  },
+  "categories": [
+    {
+      "name": "House",
+      "capacity": 150,
+      "id": 1
+    },
+    {
+      "name": "Food",
+      "capacity": 100,
+      "id": 2
+    },
+    {
+      "id": 3,
+      "name": "Car",
+      "capacity": 200
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "type": "income",
+      "amount": 100,
+      "category": 2,
+      "date": "12.04.2019 15:29:02",
+      "description": "Birthday"
+    },
+    {
+      "id": 2,
+      "type": "outcome",
+      "amount": 1300,
+      "category": 1,
+      "date": "13.04.2019 12:10:00",
+      "description": "Buy staff"
+    }
+  ]
+}
