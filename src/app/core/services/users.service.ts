@@ -26,6 +26,11 @@ export class UsersService {
       );
   }
 
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.usersUrl}`, user)
+      .pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
 

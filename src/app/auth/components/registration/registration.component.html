@@ -1,33 +1,78 @@
 <p class="text-xs-center">Registration</p>
-<form>
-  <div class="form-group">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div
+    class="form-group"
+    [ngClass]="{ 'has-error': form.get('email').invalid && form.get('email').touched }">
+
     <label for="email">Email</label>
-    <input type="text" class="form-control underlined" id="email" placeholder="Email">
+    <input
+      type="text"
+      class="form-control underlined"
+      id="email"
+      placeholder="Email"
+      formControlName="email"
+    >
+    <span class="form-help-text" *ngIf="form.get('email').invalid && form.get('email').touched">
+      <span *ngIf="form.get('email')['errors']['required']">Please, enter Email.</span>
+      <span *ngIf="form.get('email')['errors']['email']">Please, enter valid Email.</span>
+      <span *ngIf="form.get('email')['errors']['duplicateEmail']">Email, enter another Email.</span>
+    </span>
   </div>
-  <div class="form-group has-error">
+  <div
+    class="form-group"
+    [ngClass]="{ 'has-error': form.get('password').invalid && form.get('password').touched }">
+
     <label for="password">Password</label>
-    <input type="password" class="form-control underlined" id="password" placeholder="Password">
-    <span class="form-help-text">Error message.</span>
+    <input
+      type="password"
+      class="form-control underlined"
+      id="password"
+      placeholder="Password"
+      formControlName="password"
+    >
+    <span class="form-help-text" *ngIf="form.get('password').invalid && form.get('password').touched">
+      <span *ngIf="form.get('password')['errors']['required']">Please, enter Password.</span>
+      <span *ngIf="form.get('password')['errors']['minlength']">Password should be greater than 4 symbols.</span>
+    </span>
   </div>
-  <div class="form-group has-success">
+  <div
+    class="form-group"
+    [ngClass]="{ 'has-error': form.get('name').invalid && form.get('name').touched }">
+
     <label for="name">Name</label>
-    <input type="text" class="form-control underlined" id="name" placeholder="Name">
-    <span class="form-help-text">Success message.</span>
+    <input
+      type="text"
+      class="form-control underlined"
+      id="name"
+      placeholder="Name"
+      formControlName="name"
+    >
+    <span class="form-help-text" *ngIf="form.get('name').invalid && form.get('name').touched">
+      Please, enter Name.
+    </span>
   </div>
-  <div class="form-group">
+  <div
+    class="form-group"
+    [ngClass]="{ 'has-error': form.get('agreement').invalid && form.get('agreement').touched }">
+
     <label for="agree">
-      <input class="checkbox" id="agree" type="checkbox">
+      <input
+        class="custom-checkbox"
+        id="agree"
+        type="checkbox"
+        formControlName="agreement"
+      >
       <span>Agree</span>
     </label>
   </div>
   <div class="form-group">
-    <button type="submit" class="btn btn-block btn-primary">Register</button>
+    <button [disabled]="form.invalid" type="submit" class="btn btn-block btn-primary">Register</button>
   </div>
   <div class="form-group">
     <p class="text-muted text-xs-center">
       Do you have an account?
-      <a href="#">
-        Sing in!
+      <a routerLink="/login">
+        Sign in!
       </a>
     </p>
   </div>
