@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { UsersService } from 'src/app/core';
+import { UsersService, AuthService } from 'src/app/core';
 import { User } from './../../../shared/models';
 
 @Component({
@@ -15,7 +15,11 @@ import { User } from './../../../shared/models';
 export class RegistrationComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private router: Router, private usersService: UsersService) { }
+  constructor(
+    private router: Router,
+    private usersService: UsersService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -40,10 +44,10 @@ export class RegistrationComponent implements OnInit {
     const { email, password, name } = this.form.value;
     const user = new User(email, password, name);
     this.usersService.createUser(user).subscribe(() => {
-      sessionStorage.setItem('password', user.password);
+      this.authService.setUser(user);
       this.router.navigate(['/login'], {
         queryParams: {
-          email: user.email
+          isRegistered: true
         }
       });
     });

@@ -22,8 +22,6 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const email = this.route.snapshot.queryParams.email;
-
     this.message = new Message('danger', '');
     this.form = new FormGroup({
       email: new FormControl(null, {
@@ -36,10 +34,10 @@ export class LoginComponent implements OnInit {
       }),
     });
 
-    if (email) {
+    if (this.route.snapshot.queryParams.isRegistered) {
+      const { email, password } = this.authService.getUser();
       this.showMessage('You can Log in System', 'success');
-      this.form.patchValue({ email, password: sessionStorage.getItem('password') });
-      sessionStorage.removeItem('password');
+      this.form.patchValue({ email, password });
     }
   }
 

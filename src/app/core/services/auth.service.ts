@@ -8,6 +8,7 @@ import { User } from 'src/app/shared';
 })
 export class AuthService {
   private isAuthenticated = false;
+  private user: User;
 
   login(user: User) {
     sessionStorage.setItem('user', JSON.stringify(user));
@@ -21,5 +22,13 @@ export class AuthService {
 
   isLoggedIn() {
     return this.isAuthenticated;
+  }
+
+  setUser(user: User) {
+    this.user = new User(user.email, user.password, user.name);
+  }
+
+  getUser() {
+    return this.user;
   }
 }
