@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-system',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SystemComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
-  }
+    const url = this.router.url.split('/');
 
+    if (url.length <= 2) {
+      this.router.navigate(['/system', 'bill']);
+    }
+  }
 }
