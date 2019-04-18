@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CoreModule } from '../core.module';
 import { User } from 'src/app/shared';
@@ -10,14 +11,17 @@ export class AuthService {
   private isAuthenticated = false;
   private user: User;
 
+  constructor(private router: Router) { }
+
   login(user: User) {
     sessionStorage.setItem('user', JSON.stringify(user));
     this.isAuthenticated = true;
   }
 
   logout() {
-    this.isAuthenticated = false;
     sessionStorage.removeItem('user');
+    this.isAuthenticated = false;
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn() {

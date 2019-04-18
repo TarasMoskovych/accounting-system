@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         if (user.email) {
           if (user.password === formData.password) {
             this.authService.login(user);
-            // this.router.navigate(['']);
+            this.router.navigate(['/system', 'bill']);
           } else {
             this.showMessage('Password is incorrect!', 'warning');
           }
