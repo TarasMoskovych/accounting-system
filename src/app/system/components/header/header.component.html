@@ -1,6 +1,11 @@
 <header class="header">
   <div class="header-block header-block-search">
-    {{ date | date:'dd.MM.yyyy' }}
+    <div *ngIf="date$ | async as date; else loading">
+      {{ date | date: 'd MMM yyyy, HH:mm' }}
+    </div>
+    <ng-template #loading>
+      Loading ...
+    </ng-template>
   </div>
   <div class="header-block header-block-nav">
     <ul class="nav-profile">

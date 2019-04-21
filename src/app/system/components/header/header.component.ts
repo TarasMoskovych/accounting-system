@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from 'src/app/core';
+import { AuthService, DateService } from 'src/app/core';
 import { User } from 'src/app/shared';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -9,12 +10,16 @@ import { User } from 'src/app/shared';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  date$: Observable<number>;
   user: User;
-  date: Date = new Date();
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private dateServie: DateService
+  ) { }
 
   ngOnInit() {
+    this.date$ = this.dateServie.getDate$(2500);
     const user = JSON.parse(sessionStorage.getItem('user'));
     this.user = user || { name: '' };
   }
