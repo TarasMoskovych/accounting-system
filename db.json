@@ -7,10 +7,13 @@
       "name": "Admin"
     }
   ],
-  "bill": {
-    "value": 1000,
-    "currency": "USD"
-  },
+  "bills": [
+    {
+      "id": 1,
+      "value": 1000,
+      "currency": "EUR"
+    }
+  ],
   "categories": [
     {
       "name": "House",

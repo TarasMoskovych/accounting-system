@@ -35,4 +35,8 @@ export class AuthService {
   getUser() {
     return this.user;
   }
+
+  getUserFromSession() {
+    return JSON.parse(sessionStorage.getItem('user'));
+  }
 }

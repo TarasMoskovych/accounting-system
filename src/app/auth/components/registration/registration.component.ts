@@ -53,8 +53,8 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  private validateEmail(control: FormControl): Observable<boolean> {
-    return this.usersService.getUserByEmail(control.value)
+  private validateEmail(control: FormControl): Observable<any> {
+    return this.usersService.checkEmail(control.value)
       .pipe(switchMap((user: User) => user && user.email ? of({ duplicateEmail: true }) : of(null)));
   }
 }

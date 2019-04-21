@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.date$ = this.dateServie.getDate$(2500);
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = this.authService.getUserFromSession();
     this.user = user || { name: '' };
   }
 

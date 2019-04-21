@@ -7,6 +7,8 @@ import { SystemRoutingModule } from './system-routing.module';
 import { SystemComponent } from './system.component';
 import {
   BillComponent,
+  CurrencyComponent,
+  CardComponent,
   HeaderComponent,
   HistoryComponent,
   PlanningComponent,
@@ -22,7 +24,9 @@ import {
     PlanningComponent,
     RecordsComponent,
     SidebarComponent,
-    HeaderComponent
+    HeaderComponent,
+    CurrencyComponent,
+    CardComponent
   ],
   imports: [
     CommonModule,

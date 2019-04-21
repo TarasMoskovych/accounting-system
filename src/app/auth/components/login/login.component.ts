@@ -43,15 +43,11 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     const formData = this.form.value;
-    this.usersService.getUserByEmail(formData.email)
+    this.usersService.getUserByCredentials(formData.email, formData.password)
       .subscribe((user: any) => {
-        if (user.email) {
-          if (user.password === formData.password) {
-            this.authService.login(user);
-            this.router.navigate(['/system', 'bill']);
-          } else {
-            this.showMessage('Password is incorrect!', 'warning');
-          }
+        if (user) {
+          this.authService.login(user);
+          this.router.navigate(['/system', 'bill']);
         } else {
           this.showMessage('User is not found!');
         }
