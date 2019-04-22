@@ -11,6 +11,7 @@ import { BaseHttpService } from './base-http.service';
 })
 export class UsersService extends BaseHttpService {
   private usersUrl = 'users';
+  private emailsUrl = 'emails';
 
   getUserByCredentials(email: string, password: string): Observable<any> {
     const url = `${this.usersUrl}/?email=${email}&password=${password}`;
@@ -18,11 +19,15 @@ export class UsersService extends BaseHttpService {
   }
 
   checkEmail(email: string): Observable<any> {
-    const url = `${this.usersUrl}/?email=${email}`;
+    const url = `${this.emailsUrl}/?email=${email}`;
     return this.get(null, { url }).pipe(map((user: Array<User>) => user[0]) || null);
   }
 
   createUser(user: User): Observable<User> {
     return this.post(null, user, { url: this.usersUrl });
+  }
+
+  createEmail(data: any): Observable<string> {
+    return this.post(null, data, { url: this.emailsUrl });
   }
 }

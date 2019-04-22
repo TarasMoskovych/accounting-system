@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { UsersService, AuthService } from 'src/app/core';
@@ -12,7 +12,9 @@ import { User } from './../../../shared/models';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, OnDestroy {
+  private sub$: Subscription;
+
   form: FormGroup;
 
   constructor(
@@ -40,17 +42,24 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    if (this.sub$) { this.sub$.unsubscribe(); }
+  }
+
   onSubmit() {
     const { email, password, name } = this.form.value;
     const user = new User(email, password, name);
-    this.usersService.createUser(user).subscribe(() => {
-      this.authService.setUser(user);
-      this.router.navigate(['/login'], {
-        queryParams: {
-          isRegistered: true
-        }
+
+    this.sub$ = this.usersService.createUser(user).pipe(switchMap(() => {
+      return this.usersService.createEmail({ email });
+    })).subscribe(() => {
+        this.authService.setUser(user);
+        this.router.navigate(['/login'], {
+          queryParams: {
+            isRegistered: true
+          }
+        });
       });
-    });
   }
 
   private validateEmail(control: FormControl): Observable<any> {

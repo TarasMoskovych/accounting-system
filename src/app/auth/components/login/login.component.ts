@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { UsersService, AuthService } from 'src/app/core/services';
 import { Message } from 'src/app/shared';
@@ -10,7 +11,9 @@ import { Message } from 'src/app/shared';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+  private sub$: Subscription;
+
   form: FormGroup;
   message: Message;
 
@@ -41,12 +44,16 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    if (this.sub$) { this.sub$.unsubscribe(); }
+  }
+
   onSubmit() {
     const formData = this.form.value;
     this.usersService.getUserByCredentials(formData.email, formData.password)
-      .subscribe((user: any) => {
-        if (user) {
-          this.authService.login(user);
+      .subscribe((data: any) => {
+        if (data) {
+          this.authService.login(data);
           this.router.navigate(['/system', 'bill']);
         } else {
           this.showMessage('User is not found!');

@@ -7,6 +7,12 @@
       "name": "Admin"
     }
   ],
+  "emails": [
+    {
+      "id": 1,
+      "email": "abc@mail.com"
+    }
+  ],
   "bills": [
     {
       "id": 1,
