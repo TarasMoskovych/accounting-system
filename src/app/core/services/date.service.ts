@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { interval, of, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { CoreModule } from '../core.module';
+import { CoreModule } from 'src/app/core/core.module';
 
 @Injectable({
   providedIn: CoreModule

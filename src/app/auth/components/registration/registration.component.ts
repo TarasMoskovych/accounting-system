@@ -5,7 +5,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { UsersService, AuthService } from 'src/app/core';
-import { User } from './../../../shared/models';
+import { User } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-registration',

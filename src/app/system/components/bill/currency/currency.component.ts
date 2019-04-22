@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { Bill } from './../../../../shared/models';
+import { Bill } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-currency',

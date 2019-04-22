@@ -1,9 +1,13 @@
-import { PlanningComponent } from './components/planning/planning.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SystemComponent } from './system.component';
-import { BillComponent, HistoryComponent, RecordsComponent } from './components';
+import {
+  BillComponent,
+  HistoryComponent,
+  RecordsComponent,
+  PlanningComponent
+} from './components';
 
 const routes: Routes = [
   {

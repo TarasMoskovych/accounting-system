@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Bill } from 'src/app/shared';
-import { CoreModule } from './../core.module';
-import { currencyApi } from '../configs';
+import { CoreModule } from 'src/app/core/core.module';
+import { currencyApi } from 'src/app/core/configs';
 import { BaseHttpService } from './base-http.service';
 
 @Injectable({

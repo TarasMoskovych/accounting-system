@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CoreModule } from '../core.module';
+import { CoreModule } from 'src/app/core/core.module';
 import { User } from 'src/app/shared';
 import { BaseHttpService } from './base-http.service';
 
