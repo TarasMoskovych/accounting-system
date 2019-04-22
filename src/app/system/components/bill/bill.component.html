@@ -12,9 +12,11 @@
   <div class="row text-center" *ngIf="!isLoaded">Loading...</div>
   <div class="row" *ngIf="isLoaded">
     <app-card
-      [bill]="bill"
-      [currency]="currency"
+      [currencies]="currencies"
     ></app-card>
-    <app-currency [currency]="currency"></app-currency>
+    <app-currency
+      [currencies]="currencies"
+      [bill]="bill"
+    ></app-currency>
   </div>
 </section>

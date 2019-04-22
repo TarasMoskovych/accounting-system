@@ -5,32 +5,15 @@
         <h4 class="title">My Bill</h4>
       </div>
       <div class="row row-sm stats-container">
-        <div class="col-xs-12 stat-col">
-          <div class="stat-icon"> <i class="fa fa-euro"></i> </div>
-          <div class="stat">
-            <div class="value">{{ bill.value | number: '.2' }}</div>
+        <div class="col-xs-12 stat-col" *ngFor="let currency of currencies | keyvalue">
+          <div *ngIf="currency.value.className as className" class="stat-icon">
+            <i class="fa fa-{{ className }}"></i>
           </div>
-          <progress class="progress stat-progress" value="100" max="100">
-            <div class="progress">
-              <span class="progress-bar" style="width: 100%;"></span>
-            </div>
-          </progress>
-        </div>
-        <div class="col-xs-12 stat-col">
-          <div class="stat-icon">&#8372;</div>
-          <div class="stat">
-            <div class="value">{{ uah | number: '.2' }}</div>
+          <div *ngIf="!currency.value.className" class="stat-icon">
+            <span [innerHTML]="currency.value.text"></span>
           </div>
-          <progress class="progress stat-progress" value="100" max="100">
-            <div class="progress">
-              <span class="progress-bar" style="width: 100%;"></span>
-            </div>
-          </progress>
-        </div>
-        <div class="col-xs-12 stat-col">
-          <div class="stat-icon"> <i class="fa fa-usd"></i> </div>
           <div class="stat">
-            <div class="value">{{ usd | number: '.2' }}</div>
+            <div class="value">{{ currency.value.val | number: '.2' }}</div>
           </div>
           <progress class="progress stat-progress" value="100" max="100">
             <div class="progress">

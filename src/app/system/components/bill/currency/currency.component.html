@@ -14,16 +14,13 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>EUR</td>
-              <td>1</td>
-              <td>{{ currency.date }}</td>
-            </tr>
-            <tr *ngFor="let prop of currencies">
-              <td>{{ prop }}</td>
-              <td>{{ currency.rates[prop] }}</td>
-              <td>{{ currency.date }}</td>
-            </tr>
+            <ng-container *ngFor="let currency of currencies | keyvalue">
+              <tr [ngClass]="{'active': bill.currency === currency.key }">
+                <td>{{ currency.key }}</td>
+                <td>{{ currency.value.val / bill.value | number: '.2' }}</td>
+                <td>{{ currency.value.date | appMoment: 'YYYY-MM-DD' }}</td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
       </div>

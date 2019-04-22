@@ -3,7 +3,7 @@ import { Subscription, combineLatest, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 import { AuthService, BillService } from 'src/app/core/services';
-import { User, Bill } from 'src/app/shared';
+import { User, Bill, currencyClasses } from 'src/app/shared';
 
 const mockData = {
   rates: {
@@ -27,10 +27,11 @@ const mockData$ = of(mockData);
 export class BillComponent implements OnInit, OnDestroy {
   private sub$: Subscription;
   private sub2$: Subscription;
+  private currency: {};
 
   user: User;
   bill: Bill;
-  currency: any;
+  currencies = {};
   isLoaded = false;
 
   constructor(
@@ -48,6 +49,7 @@ export class BillComponent implements OnInit, OnDestroy {
     ).subscribe((data: [Bill, any]) => {
       this.bill = data[0];
       this.currency = data[1];
+      this.currencies = this.populateCurrency(this.currency);
       this.isLoaded = true;
     });
   }
@@ -59,9 +61,9 @@ export class BillComponent implements OnInit, OnDestroy {
     //   this.isLoaded = true;
     // });
 
-
     this.sub2$ = mockData$.pipe(delay(1000)).subscribe((currency) => {
       this.currency = currency;
+      this.currencies = this.populateCurrency(this.currency);
       this.isLoaded = true;
     });
   }
@@ -69,5 +71,33 @@ export class BillComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.sub$) { this.sub$.unsubscribe(); }
     if (this.sub2$) { this.sub2$.unsubscribe(); }
+  }
+
+  private populateCurrency(currency: any) {
+    const currencies = {};
+    const { rates } = currency;
+
+    const populateCurrencySymbol = (field: string, prop: string) => {
+      currencies[prop] = {
+        [field]: currencyClasses[prop],
+        val: this.calculateCurrency(rates[prop]),
+        date: currency.date
+      };
+    };
+
+    for (const prop in currencyClasses) {
+      if (rates[prop]) {
+        if (String(currencyClasses[prop])[0] === '&') {
+          populateCurrencySymbol('text', prop);
+        } else {
+          populateCurrencySymbol('className', prop);
+        }
+      }
+    }
+    return currencies;
+  }
+
+  private calculateCurrency(rate: number) {
+    return this.bill.value * rate;
   }
 }

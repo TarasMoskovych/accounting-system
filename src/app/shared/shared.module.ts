@@ -3,9 +3,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AlertComponent } from './components';
 import { DropdownDirective } from './directives';
+import { MomentPipe } from './pipes';
 
 @NgModule({
-  declarations: [AlertComponent, DropdownDirective],
+  declarations: [
+    AlertComponent,
+    DropdownDirective,
+    MomentPipe
+  ],
   imports: [
     ReactiveFormsModule,
     FormsModule
@@ -14,7 +19,8 @@ import { DropdownDirective } from './directives';
     ReactiveFormsModule,
     FormsModule,
     AlertComponent,
-    DropdownDirective
+    DropdownDirective,
+    MomentPipe
   ],
 })
 export class SharedModule {}
