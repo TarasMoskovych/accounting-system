@@ -23,18 +23,18 @@
   "categories": [
     {
       "name": "House",
-      "capacity": 150,
+      "limit": 150,
       "id": 1
     },
     {
       "name": "Food",
-      "capacity": 100,
+      "limit": 100,
       "id": 2
     },
     {
-      "id": 3,
       "name": "Car",
-      "capacity": 200
+      "limit": 199,
+      "id": 3
     }
   ],
   "events": [

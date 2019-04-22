@@ -13,7 +13,9 @@ import {
   HistoryComponent,
   PlanningComponent,
   RecordsComponent,
-  SidebarComponent
+  SidebarComponent,
+  ActionComponent,
+  CategoryComponent
 } from './components';
 
 @NgModule({
@@ -26,7 +28,9 @@ import {
     SidebarComponent,
     HeaderComponent,
     CurrencyComponent,
-    CardComponent
+    CardComponent,
+    ActionComponent,
+    CategoryComponent
   ],
   imports: [
     CommonModule,

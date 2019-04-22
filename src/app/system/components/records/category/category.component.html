@@ -1,0 +1,86 @@
+<div class="card">
+  <div class="card-header bordered">
+    <div class="header-block">
+      <h3 class="title">Add Category</h3>
+    </div>
+  </div>
+  <div class="card-block">
+    <app-alert
+      *ngIf="message.text"
+      [type]="message.type"
+      (close)="onHideAlert($event)"
+    >{{ message.text }}</app-alert>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+      <div class="form-group">
+        <label class="control-label" for="category-select">Select Category</label>
+        <select
+          class="form-control"
+          id="category-select"
+          [(ngModel)]="selected.id"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="onCategoryChange()"
+        >
+          <option value="0">Add new Category</option>
+          <option
+            *ngFor="let item of categories"
+            [value]="item.id"
+          >{{ item.name }}</option>
+        </select>
+      </div>
+      <div
+        [ngClass]="{ 'has-error': name.invalid && name.touched }"
+        class="form-group">
+
+        <label class="control-label" for="category-name">Input Name</label>
+        <input
+          type="text"
+          id="category-name"
+          class="form-control"
+          required
+          #name="ngModel"
+          name="name"
+          [ngModel]="selected.category.name"
+        >
+        <span
+          *ngIf="name.invalid && name.touched"
+          class="form-help-text"
+        >Please, enter Category name</span>
+      </div>
+      <div
+        [ngClass]="{ 'has-error': limit.invalid && limit.touched }"
+        class="form-group">
+
+        <label class="control-label" for="category-value">Input Limit</label>
+        <input
+          type="number"
+          id="category-value"
+          class="form-control"
+          required
+          #limit="ngModel"
+          name="limit"
+          [ngModel]="selected.category.limit"
+          min="1"
+        >
+        <span
+          *ngIf="limit.invalid && limit.touched"
+          class="form-help-text"
+        >Please, enter Limit name</span>
+      </div>
+
+      <button
+        [disabled]="form.invalid"
+        *ngIf="+selected.id === 0"
+        type="submit"
+        class="btn btn-primary"
+      >Add</button>
+
+      <button
+        [disabled]="form.invalid"
+        *ngIf="+selected.id !== 0"
+        type="submit"
+        class="btn btn-warning"
+      >Edit</button>
+    </form>
+  </div>
+</div>
