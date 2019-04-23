@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription, combineLatest, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { combineLatest, of, Subject } from 'rxjs';
+import { delay, takeUntil } from 'rxjs/operators';
 
 import { AuthService, BillService } from 'src/app/core/services';
 import { User, Bill, currencyClasses } from 'src/app/shared';
@@ -25,8 +25,7 @@ const mockData$ = of(mockData);
   styleUrls: ['./bill.component.scss']
 })
 export class BillComponent implements OnInit, OnDestroy {
-  private sub$: Subscription;
-  private sub2$: Subscription;
+  private destroy$ = new Subject<boolean>();
   private currency: {};
 
   user: User;
@@ -42,35 +41,37 @@ export class BillComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user = this.authService.getUserFromSession();
 
-    this.sub$ = combineLatest(
-      this.billService.getBillById(this.user.id),
-      mockData$
-      // this.billService.getCurrency()
-    ).subscribe((data: [Bill, any]) => {
-      this.bill = data[0];
-      this.currency = data[1];
-      this.currencies = this.populateCurrency(this.currency);
-      this.isLoaded = true;
-    });
+    combineLatest(this.billService.getBillById(this.user.id), mockData$ /* this.billService.getCurrency() */)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: [Bill, any]) => {
+        this.bill = data[0];
+        this.currency = data[1];
+        this.currencies = this.populateCurrency(this.currency);
+        this.isLoaded = true;
+      });
   }
 
   onRefresh() {
     this.isLoaded = false;
-    // this.sub2$ = this.billService.getCurrency().subscribe((currency) => {
-    //   this.currency = currency;
-    //   this.isLoaded = true;
-    // });
+    // this.billService.getCurrency()
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((currency) => {
+    //     this.currency = currency;
+    //     this.isLoaded = true;
+    //   });
 
-    this.sub2$ = mockData$.pipe(delay(1000)).subscribe((currency) => {
-      this.currency = currency;
-      this.currencies = this.populateCurrency(this.currency);
-      this.isLoaded = true;
+    mockData$
+      .pipe(delay(1000), takeUntil(this.destroy$))
+      .subscribe((currency) => {
+        this.currency = currency;
+        this.currencies = this.populateCurrency(this.currency);
+        this.isLoaded = true;
     });
   }
 
   ngOnDestroy() {
-    if (this.sub$) { this.sub$.unsubscribe(); }
-    if (this.sub2$) { this.sub2$.unsubscribe(); }
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   private populateCurrency(currency: any) {

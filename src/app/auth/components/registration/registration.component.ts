@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable, of, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { switchMap, takeUntil } from 'rxjs/operators';
 
 import { UsersService, AuthService } from 'src/app/core';
 import { User } from 'src/app/shared/models';
@@ -13,7 +13,7 @@ import { User } from 'src/app/shared/models';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
-  private sub$: Subscription;
+  private destroy$ = new Subject<boolean>();
 
   form: FormGroup;
 
@@ -43,16 +43,22 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.sub$) { this.sub$.unsubscribe(); }
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onSubmit() {
     const { email, password, name } = this.form.value;
     const user = new User(email, password, name);
 
-    this.sub$ = this.usersService.createUser(user).pipe(switchMap(() => {
-      return this.usersService.createEmail({ email });
-    })).subscribe(() => {
+    this.usersService.createUser(user)
+      .pipe(
+        switchMap(() => {
+          return this.usersService.createEmail({ email });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
         this.authService.setUser(user);
         this.router.navigate(['/login'], {
           queryParams: {

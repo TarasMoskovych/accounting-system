@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { UsersService, AuthService } from 'src/app/core/services';
 import { Message } from 'src/app/shared';
@@ -12,7 +13,7 @@ import { Message } from 'src/app/shared';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private sub$: Subscription;
+  private destroy$ = new Subject<boolean>();
 
   form: FormGroup;
   message: Message;
@@ -45,12 +46,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.sub$) { this.sub$.unsubscribe(); }
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onSubmit() {
     const formData = this.form.value;
     this.usersService.getUserByCredentials(formData.email, formData.password)
+      .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         if (data) {
           this.authService.login(data);

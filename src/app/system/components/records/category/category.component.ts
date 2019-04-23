@@ -1,19 +1,22 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
 
-import { RecordsService } from 'src/app/core/services';
 import { Category, Message } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
-  styleUrls: ['./category.component.scss']
+  styleUrls: ['./category.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryComponent implements OnInit {
   @Input() categories: Array<Category>;
+  @Input() channel$: Observable<any>;
   @Output() addCategory = new EventEmitter<Category>();
   @Output() editCategory = new EventEmitter<Category>();
   @Output() removeCategory = new EventEmitter<Category>();
+  @ViewChild('form') form: NgForm;
 
   message: Message;
   selected: {
@@ -21,7 +24,7 @@ export class CategoryComponent implements OnInit {
     category: null | Category
   };
 
-  constructor(private recordsService: RecordsService) { }
+  constructor() { }
 
   ngOnInit() {
     this.message = new Message('', '');
@@ -42,7 +45,8 @@ export class CategoryComponent implements OnInit {
   onRemove() {
     if (+this.selected.id !== 0) {
       this.removeCategory.emit(this.selected.category);
-      this.selected.id = 0
+      this.selected.id = 0;
+      this.resetForm(this.form);
     }
   }
 
@@ -51,32 +55,26 @@ export class CategoryComponent implements OnInit {
     const category = new Category(name, limit > 0 ? limit : limit * -1);
 
     if (+this.selected.id === 0) {
-      this.createCategory(category, form);
+      this.addCategory.emit(category);
     } else {
       category.id = +this.selected.id;
-      this.updateCategory(category, form);
+      this.editCategory.emit(category);
     }
+
+    this.channel$.subscribe(data => {
+      if (data === 'created') {
+        this.message = new Message('success', `Category ${category.name} was added!`);
+        this.resetForm(form);
+      }
+
+      if (data === 'edited') {
+        this.message = new Message('success', `Category ${category.name} was edited!`);
+      }
+    });
   }
 
   onHideAlert() {
     this.message.text = '';
-  }
-
-  private createCategory(category: Category, form: NgForm) {
-    this.recordsService.createCategory(category)
-      .subscribe((data: Category) => {
-        this.message = new Message('success', `Category ${category.name} was added!`);
-        this.resetForm(form);
-        this.addCategory.emit(data);
-      });
-  }
-
-  private updateCategory(category: Category, form: NgForm) {
-    this.recordsService.updateCategory(category)
-      .subscribe((data: Category) => {
-        this.message = new Message('success', `Category ${category.name} was edited!`);
-        this.editCategory.emit(data);
-      });
   }
 
   private resetForm(form: NgForm) {
