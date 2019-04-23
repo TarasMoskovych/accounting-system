@@ -20,6 +20,11 @@ export class RecordsService extends BaseHttpService {
     return this.put(null, category, { url });
   }
 
+  removeCategory(id: number): Observable<Category> {
+    const url = `${this.categoriesUrl}/${id}`;
+    return this.delete(null, { url });
+  }
+
   getCategories(): Observable<Array<Category>> {
     return this.get(null, { url: this.categoriesUrl });
   }

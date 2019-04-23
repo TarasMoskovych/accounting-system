@@ -32,4 +32,14 @@ export class RecordsComponent implements OnInit {
       this.categories.splice(idx, 1, category);
     }
   }
+
+  onRemoveCategory(category: Category) {
+    this.recordsService.removeCategory(category.id).subscribe(() => {
+      const idx = this.categories.findIndex((item: Category) => item.id === category.id);
+
+      if (idx > -1) {
+        this.categories.splice(idx, 1);
+      }
+    });
+  }
 }

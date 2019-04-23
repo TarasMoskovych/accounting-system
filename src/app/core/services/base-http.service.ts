@@ -45,6 +45,16 @@ export class BaseHttpService {
       );
   }
 
+  protected delete(url: string = '', extraOptions?: any): Observable<any> {
+    const action = url || `${this.baseUrl}/${extraOptions.url}`;
+
+    return this.http.delete(action)
+      .pipe(
+        map((response: Response) => response),
+        catchError(this.handleError)
+      );
+  }
+
   protected handleError(err: HttpErrorResponse) {
     let errorMessage: string;
 

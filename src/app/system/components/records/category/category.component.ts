@@ -13,6 +13,7 @@ export class CategoryComponent implements OnInit {
   @Input() categories: Array<Category>;
   @Output() addCategory = new EventEmitter<Category>();
   @Output() editCategory = new EventEmitter<Category>();
+  @Output() removeCategory = new EventEmitter<Category>();
 
   message: Message;
   selected: {
@@ -35,6 +36,13 @@ export class CategoryComponent implements OnInit {
       this.selected.category = this.categories.find((category: Category) => category.id === id);
     } else {
       this.selected.category = new Category(null, '1');
+    }
+  }
+
+  onRemove() {
+    if (+this.selected.id !== 0) {
+      this.removeCategory.emit(this.selected.category);
+      this.selected.id = 0
     }
   }
 
