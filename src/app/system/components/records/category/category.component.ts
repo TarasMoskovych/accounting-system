@@ -24,8 +24,6 @@ export class CategoryComponent implements OnInit {
     category: null | Category
   };
 
-  constructor() { }
-
   ngOnInit() {
     this.message = new Message('', '');
     this.selected = { id: 0, category: null };

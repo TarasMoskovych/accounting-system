@@ -4,9 +4,18 @@
   </h3>
 </div>
 <section class="section" *ngIf="isLoaded">
+  <app-alert
+    *ngIf="message.text"
+    [type]="message.type"
+    (close)="onHideAlert($event)"
+  >{{ message.text }}</app-alert>
+
   <div class="row">
     <div class="col-md-6">
-      <app-action></app-action>
+      <app-action
+        [categories]="categories"
+        (addAction)="onAddAction($event)"
+      ></app-action>
     </div>
     <div class="col-md-6">
       <app-category

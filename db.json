@@ -15,9 +15,9 @@
   ],
   "bills": [
     {
-      "id": 1,
       "value": 1000,
-      "currency": "EUR"
+      "currency": "EUR",
+      "id": 1
     }
   ],
   "categories": [

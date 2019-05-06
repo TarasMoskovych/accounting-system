@@ -21,4 +21,13 @@ export class BillService extends BaseHttpService {
   getCurrency(): Observable<any> {
     return this.get(currencyApi);
   }
+
+  createBill(bill: Bill): Observable<Bill> {
+    return this.post(null, bill, { url: this.billsUrl });
+  }
+
+  updateBill(bill: Bill, id: number): Observable<Bill> {
+    const url = `${this.billsUrl}/${id}`;
+    return this.put(null, bill, { url });
+  }
 }
