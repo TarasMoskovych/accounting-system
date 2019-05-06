@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { CoreModule } from '../core.module';
 import { Category } from 'src/app/shared/models';
@@ -27,5 +28,10 @@ export class RecordsService extends BaseHttpService {
 
   getCategories(): Observable<Array<Category>> {
     return this.get(null, { url: this.categoriesUrl });
+  }
+
+  checkCategories(category: string): Observable<any> {
+    const url = `${this.categoriesUrl}/?name=${category}`;
+    return this.get(null, { url }).pipe(map((data: Array<Category>) => data[0]) || null);
   }
 }

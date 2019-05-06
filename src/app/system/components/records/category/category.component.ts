@@ -40,6 +40,7 @@ export class CategoryComponent implements OnInit {
     } else {
       this.selected.category = new Category(null, '1');
     }
+    this.message.text = '';
   }
 
   onRemove() {
@@ -51,8 +52,8 @@ export class CategoryComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let { name, limit } = form.value;
-    const category = new Category(name, limit > 0 ? limit : limit * -1);
+    let { categoryName, limit } = form.value;
+    const category = new Category(categoryName, limit > 0 ? limit : limit * -1);
 
     if (+this.selected.id === 0) {
       this.addCategory.emit(category);

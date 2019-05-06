@@ -4,12 +4,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AlertComponent } from './components';
 import { DropdownDirective } from './directives';
 import { MomentPipe } from './pipes';
+import { AsyncValidatorDirective } from './directives/async-validator/async-validator.directive';
 
 @NgModule({
   declarations: [
     AlertComponent,
     DropdownDirective,
-    MomentPipe
+    MomentPipe,
+    AsyncValidatorDirective
   ],
   imports: [
     ReactiveFormsModule,
@@ -20,7 +22,8 @@ import { MomentPipe } from './pipes';
     FormsModule,
     AlertComponent,
     DropdownDirective,
-    MomentPipe
+    MomentPipe,
+    AsyncValidatorDirective
   ],
 })
 export class SharedModule {}

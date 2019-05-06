@@ -11,11 +11,12 @@
       id="email"
       placeholder="Email"
       formControlName="email"
+      appAsyncValidator
     >
     <span class="form-help-text" *ngIf="form.get('email').invalid && form.get('email').touched">
       <span *ngIf="form.get('email')['errors']['required']">Please, enter Email.</span>
       <span *ngIf="form.get('email')['errors']['email']">Please, enter valid Email.</span>
-      <span *ngIf="form.get('email')['errors']['duplicateEmail']">Email, enter another Email.</span>
+      <span *ngIf="form.get('email')['errors']['duplicate']">Email, enter another Email.</span>
     </span>
   </div>
   <div

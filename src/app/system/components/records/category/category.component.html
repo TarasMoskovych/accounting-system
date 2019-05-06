@@ -39,13 +39,14 @@
           class="form-control"
           required
           #name="ngModel"
-          name="name"
+          name="categoryName"
           [ngModel]="selected.category.name"
+          appAsyncValidator
         >
         <span
           *ngIf="name.invalid && name.touched"
           class="form-help-text"
-        >Please, enter Category name</span>
+        >Please, enter valid Category name</span>
       </div>
       <div
         [ngClass]="{ 'has-error': limit.invalid && limit.touched }"
@@ -69,7 +70,7 @@
       </div>
 
       <button
-        [disabled]="form.invalid"
+        [disabled]="!form.valid"
         *ngIf="+selected.id === 0"
         type="submit"
         class="btn btn-primary"

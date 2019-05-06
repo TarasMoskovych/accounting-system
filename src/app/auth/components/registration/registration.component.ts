@@ -27,7 +27,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.form = new FormGroup({
       email: new FormControl(null, {
         validators: [Validators.required, Validators.email],
-        asyncValidators: this.validateEmail.bind(this),
         updateOn: 'blur'
       }),
       password: new FormControl(null, {
@@ -66,10 +65,5 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           }
         });
       });
-  }
-
-  private validateEmail(control: FormControl): Observable<any> {
-    return this.usersService.checkEmail(control.value)
-      .pipe(switchMap((user: User) => user && user.email ? of({ duplicateEmail: true }) : of(null)));
   }
 }
