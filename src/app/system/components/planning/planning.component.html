@@ -3,7 +3,7 @@
     Planning page<span class="sparkline bar"></span>
   </h3>
 </div>
-<section class="section">
+<section *ngIf="isLoaded" class="section">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -12,66 +12,35 @@
             <h3 class="title">Outcome</h3>
           </div>
           <h5 class="planning-expenses pull-right">
-            Total price: <span class="text-success">78 999.21</span>
+            Total price: <span class="text-success">{{ bill.value | number:'1.2' }} {{ bill.currency }}</span>
           </h5>
         </div>
         <div class="card-block">
-          <div class="row">
-            <div class="col-xs-6">
-              <div class="n-progress">
-                <div class="progress-bar success" style="width: 30%;">
-                  <span>Category name</span>
+          <div class="row" *ngFor="let category of categories">
+            <ng-container *ngIf="getCategoryPriority(category) as className">
+              <div class="col-xs-6">
+                <div class="n-progress">
+                  <div
+                    class="progress-bar {{ className }}"
+                    [ngStyle]="{ width: getCategoryPercent(category) }">
+                    <span>{{ category.name }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-xs-6">
-              <p>
-                <span class="text-success">300.00</span>
-                from
-                <span class="text-primary">1000.00</span>
-                |
-                is <span class="text-success">700.00</span> (usd)
-              </p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6">
-              <div class="n-progress">
-                <div class="progress-bar warning" style="width: 60%;">
-                  <span>Category name</span>
-                </div>
+              <div class="col-xs-6">
+                <p *ngIf="getCategoryCost(category) || '0' as result">
+                  <span class="text-{{ className }}">{{ result | number:'1.2' }}</span> from
+                  <span class="text-primary">{{ category.limit | number:'1.2' }}</span>| is
+                  <span class="text-{{ className }}">{{ category.limit - result | number:'1.2' }}</span> {{ bill.currency }}
+                </p>
               </div>
-            </div>
-            <div class="col-xs-6">
-              <p>
-                <span class="text-warning">600.00</span>
-                from
-                <span class="text-primary">1000.00</span>
-                |
-                is <span class="text-success">400.00</span> (usd)
-              </p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-6">
-              <div class="n-progress">
-                <div class="progress-bar danger" style="width: 100%;">
-                  <span>Category name</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-xs-6">
-              <p>
-                <span class="text-danger">1200.00</span>
-                from
-                <span class="text-primary">1000.00</span>
-                |
-                is <span class="text-danger">-200.00</span> (usd)
-              </p>
-            </div>
+            </ng-container>
           </div>
         </div>
       </div>
     </div>
   </div>
+</section>
+<section *ngIf="!isLoaded" >
+  Loading...
 </section>

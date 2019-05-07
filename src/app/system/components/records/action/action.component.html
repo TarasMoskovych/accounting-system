@@ -13,11 +13,11 @@
           required
           id="category"
           name="category"
-          [ngModel]="categories[0]?.name"
+          [ngModel]="1"
         >
           <option
             *ngFor="let category of categories"
-            [value]="category.name"
+            [value]="category.id"
           >{{ category.name }}
           </option>
         </select>

@@ -15,4 +15,8 @@ export class ActionsService extends BaseHttpService {
   createAction(action: Action): Observable<Action> {
     return this.post(null, action, { url: this.actionsUrl });
   }
+
+  getActions(): Observable<Array<Action>> {
+    return this.get(null, { url: this.actionsUrl });
+  }
 }
