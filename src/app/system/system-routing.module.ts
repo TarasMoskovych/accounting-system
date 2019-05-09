@@ -6,7 +6,8 @@ import {
   BillComponent,
   HistoryComponent,
   RecordsComponent,
-  PlanningComponent
+  PlanningComponent,
+  HistoryDetailComponent
 } from './components';
 
 const routes: Routes = [
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'history',
         component: HistoryComponent
+      },
+      {
+        path: 'history/:id',
+        component: HistoryDetailComponent
       },
       {
         path: 'planning',

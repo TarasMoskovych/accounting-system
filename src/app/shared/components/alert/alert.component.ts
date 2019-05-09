@@ -1,18 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  styleUrls: ['./alert.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AlertComponent implements OnInit {
+export class AlertComponent {
   @Input() type = 'danger';
   @Output() close = new EventEmitter<string>();
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   onClick() {
     this.close.emit('close');

@@ -30,6 +30,11 @@ export class RecordsService extends BaseHttpService {
     return this.get(null, { url: this.categoriesUrl });
   }
 
+  getCategoryById(id: number): Observable<Category> {
+    const url = `${this.categoriesUrl}/?id=${id}`;
+    return this.get(null, { url }).pipe(map((data: Array<Category>) => data[0]) || null);
+  }
+
   checkCategories(category: string): Observable<any> {
     const url = `${this.categoriesUrl}/?name=${category}`;
     return this.get(null, { url }).pipe(map((data: Array<Category>) => data[0]) || null);

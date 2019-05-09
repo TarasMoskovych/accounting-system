@@ -27,8 +27,8 @@ const mockData$ = of(mockData);
 export class BillComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<boolean>();
   private currency: {};
+  private user: User;
 
-  user: User;
   bill: Bill;
   currencies = {};
   isLoaded = false;
@@ -40,15 +40,12 @@ export class BillComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.user = this.authService.getUserFromSession();
+    this.getCurrency();
+  }
 
-    combineLatest(this.billService.getBillById(this.user.id), mockData$ /* this.billService.getCurrency() */)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: [Bill, any]) => {
-        this.bill = data[0];
-        this.currency = data[1];
-        this.currencies = this.populateCurrency(this.currency);
-        this.isLoaded = true;
-      });
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   onRefresh() {
@@ -69,9 +66,15 @@ export class BillComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+  private getCurrency(): void {
+    combineLatest(this.billService.getBillById(this.user.id), mockData$ /* this.billService.getCurrency() */)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: [Bill, any]) => {
+        this.bill = data[0];
+        this.currency = data[1];
+        this.currencies = this.populateCurrency(this.currency);
+        this.isLoaded = true;
+    });
   }
 
   private populateCurrency(currency: any) {

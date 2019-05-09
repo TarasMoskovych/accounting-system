@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Bill } from 'src/app/shared/models';
 
@@ -8,12 +8,7 @@ import { Bill } from 'src/app/shared/models';
   styleUrls: ['./currency.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CurrencyComponent implements OnInit {
+export class CurrencyComponent {
   @Input() currencies: any;
   @Input() bill: Bill;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 }

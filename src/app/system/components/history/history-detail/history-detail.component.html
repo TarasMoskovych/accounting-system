@@ -1,0 +1,31 @@
+<div class="text-center" *ngIf="!isLoaded">Loading...</div>
+<div *ngIf="isLoaded">
+  <div class="title-block">
+    <h3 class="title">
+      <a [routerLink]="['/system/history']"><i class="fa fa-arrow-left"></i></a>
+        Record №{{ action.id }}
+      <span class="sparkline bar"></span>
+    </h3>
+  </div>
+  <section class="section">
+    <div class="row">
+      <div class="col-xs-6 col-xs-offset-3">
+        <div [ngClass]="'card card-' + (action.type === 'income' ? 'success' : 'danger')">
+          <div class="card-header">
+            <div class="header-block">
+              <p class="title">{{ action.type === 'income' ? 'Income' : 'Outcome' }}</p>
+            </div>
+          </div>
+          <div class="card-block">
+            <ul>
+              <li>Amount: <strong>{{ action.amount | number:'1.2' }}</strong></li>
+              <li>Category: <strong>{{ category.name }}</strong></li>
+              <li>Description: <strong>{{ action.description }}</strong></li>
+            </ul>
+          </div>
+          <div class="card-footer">{{ action.date }}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -14,11 +14,11 @@ import { User, Bill, Category, Action } from 'src/app/shared';
 export class PlanningComponent implements OnInit, OnDestroy {
   private user: User;
   private destroy$ = new Subject<boolean>();
+  private actions: Array<Action> = [];
 
   isLoaded = false;
   bill: Bill;
   categories: Array<Category> = [];
-  actions: Array<Action> = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -30,7 +30,15 @@ export class PlanningComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.user = this.authService.getUserFromSession();
+    this.getData();
+  }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  getData(): void {
     combineLatest(
       this.billService.getBillById(this.user.id),
       this.recordsService.getCategories(),
@@ -44,11 +52,6 @@ export class PlanningComponent implements OnInit, OnDestroy {
       this.isLoaded = true;
       this.cdr.detectChanges();
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 
   getCategoryCost(category: Category): number {

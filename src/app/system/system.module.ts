@@ -11,6 +11,10 @@ import {
   CardComponent,
   HeaderComponent,
   HistoryComponent,
+  HistoryChartComponent,
+  HistoryActionsComponent,
+  HistoryDetailComponent,
+  HistoryFilterComponent,
   PlanningComponent,
   RecordsComponent,
   SidebarComponent,
@@ -30,7 +34,11 @@ import {
     CurrencyComponent,
     CardComponent,
     ActionComponent,
-    CategoryComponent
+    CategoryComponent,
+    HistoryChartComponent,
+    HistoryActionsComponent,
+    HistoryDetailComponent,
+    HistoryFilterComponent
   ],
   imports: [
     CommonModule,

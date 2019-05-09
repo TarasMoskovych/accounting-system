@@ -29,12 +29,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.message = new Message('danger', '');
     this.form = new FormGroup({
       email: new FormControl(null, {
-        validators: [Validators.required, Validators.email],
-        updateOn: 'blur'
+        validators: [Validators.required, Validators.email]
       }),
       password: new FormControl(null, {
-        validators: [Validators.required, Validators.minLength(5)],
-        updateOn: 'blur'
+        validators: [Validators.required, Validators.minLength(5)]
       }),
     });
 

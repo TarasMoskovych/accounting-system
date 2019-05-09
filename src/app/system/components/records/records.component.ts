@@ -35,12 +35,7 @@ export class RecordsComponent implements OnInit, OnDestroy {
 
     this.user = this.authService.getUserFromSession();
     this.getBillById();
-    this.recordsService.getCategories()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((categories: Array<Category>) => {
-      this.categories = categories;
-      this.isLoaded = true;
-    });
+    this.getCategories();
   }
 
   ngOnDestroy() {
@@ -102,11 +97,20 @@ export class RecordsComponent implements OnInit, OnDestroy {
     this.message.text = '';
   }
 
+  private getCategories(): void {
+    this.recordsService.getCategories()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((categories: Array<Category>) => {
+        this.categories = categories;
+        this.isLoaded = true;
+      });
+  }
+
   private getBillById() {
     this.billService.getBillById(this.user.id).pipe(takeUntil(this.destroy$))
-    .subscribe((data: Bill) => {
-      this.bill = data;
-    });
+      .subscribe((data: Bill) => {
+        this.bill = data;
+      });
   }
 
   private updateBill(bill: Bill, action: Action) {

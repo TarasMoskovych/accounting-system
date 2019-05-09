@@ -8,6 +8,4 @@ export class DropdownDirective {
   @HostListener('click') onclick() {
     this.isOpen = !this.isOpen;
   }
-
-  constructor() { }
 }
