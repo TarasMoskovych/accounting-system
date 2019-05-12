@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -22,8 +23,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     private router: Router,
     private usersService: UsersService,
     private authService: AuthService,
-    private billsService: BillService
-  ) { }
+    private billsService: BillService,
+    private title: Title
+  ) {
+    title.setTitle('Register new User');
+  }
 
   ngOnInit() {
     this.createRegistrationForm();

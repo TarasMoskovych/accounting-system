@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from 'src/app/core/guards';
+
 import { SystemComponent } from './system.component';
 import {
   BillComponent,
@@ -12,8 +14,9 @@ import {
 
 const routes: Routes = [
   {
-    path: 'system',
+    path: '',
     component: SystemComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'bill',

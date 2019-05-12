@@ -4,9 +4,11 @@ import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { RecordsService, ActionsService, AuthService } from 'src/app/core/services';
-import { Category, Action, User } from 'src/app/shared';
+import { Category, Action, User } from 'src/app/shared/models';
+import { fadeTrigger } from 'src/app/shared/animations';
 
 @Component({
+  animations: [fadeTrigger],
   selector: 'app-history',
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']

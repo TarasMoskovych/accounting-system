@@ -1,10 +1,11 @@
 <p class="text-xs-center">Sing up</p>
 
-<app-alert
-  *ngIf="message.text"
-  [type]="message.type"
-  (close)="onHideAlert($event)"
->{{ message.text }}</app-alert>
+<div @fade *ngIf="message.text">
+  <app-alert
+    [type]="message.type"
+    (close)="onHideAlert($event)"
+  >{{ message.text }}</app-alert>
+</div>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div

@@ -9,19 +9,21 @@
   </div>
 </div>
 
-<div *ngIf="!isLoaded" class="text-center">Loading...</div>
+<div *ngIf="!isLoaded">
+  <app-loader></app-loader>
+</div>
 
 <div *ngIf="isLoaded && actions.length; else emptyData">
   <app-history-chart [data]="chartData"></app-history-chart>
   <app-history-actions [actions]="filteredActions" [categories]="categories"></app-history-actions>
 
-  <ng-container *ngIf="isFilterVisible">
+  <div *ngIf="isFilterVisible" @fade>
     <app-history-filter
       [categories]="categories"
       (filterApply)="onFilterApply($event)"
       (filterCancel)="onFilterCancel()"
     ></app-history-filter>
-  </ng-container>
+  </div>
 </div>
 
 <ng-template #emptyData>

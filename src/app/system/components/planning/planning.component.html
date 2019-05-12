@@ -41,8 +41,9 @@
     </div>
   </div>
 </section>
+
 <section *ngIf="!isLoaded" >
-  Loading...
+  <app-loader></app-loader>
 </section>
 
 <ng-template #emptyData>

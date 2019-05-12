@@ -29,4 +29,6 @@
   </div>
 </section>
 
-<section class="section text-center" *ngIf="!isLoaded">Loading...</section>
+<section *ngIf="!isLoaded">
+  <app-loader></app-loader>
+</section>
