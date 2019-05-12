@@ -1,9 +1,11 @@
+import { AuthService } from './../../../core/services/auth.service';
 import { Directive } from '@angular/core';
 import { Validator, AbstractControl, NG_ASYNC_VALIDATORS, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, first, map, delay, switchMap, tap } from 'rxjs/operators';
-import { Observable, Observer, timer, of } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 import { RecordsService, UsersService } from 'src/app/core';
+import { User, Category } from 'src/app/shared';
 
 @Directive({
   selector: '[appAsyncValidator][formControlName], [appAsyncValidator][ngModel]',
@@ -17,6 +19,7 @@ import { RecordsService, UsersService } from 'src/app/core';
 })
 export class AsyncValidatorDirective implements Validator {
   constructor(
+    private authService: AuthService,
     private recordsService: RecordsService,
     private usersService: UsersService
   ) { }
@@ -47,12 +50,13 @@ export class AsyncValidatorDirective implements Validator {
     );
   }
 
-  private validateEmail(email: string) {
+  private validateEmail(email: string): Observable<User> {
     return this.usersService.checkEmail(email);
   }
 
-  private validateCategory(category: string) {
-    return this.recordsService.checkCategories(category);
+  private validateCategory(category: string): Observable<Category> {
+    const user: User = this.authService.getUserFromSession();
+    return this.recordsService.checkCategories(category, user.id);
   }
 
   private getFormGroupName(control: AbstractControl): string | null {

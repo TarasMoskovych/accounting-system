@@ -3,8 +3,8 @@ import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { RecordsService, ActionsService } from 'src/app/core/services';
-import { Category, Action } from 'src/app/shared';
+import { RecordsService, ActionsService, AuthService } from 'src/app/core/services';
+import { Category, Action, User } from 'src/app/shared';
 
 @Component({
   selector: 'app-history',
@@ -13,21 +13,24 @@ import { Category, Action } from 'src/app/shared';
 })
 export class HistoryComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<boolean>();
+  private user: User;
 
   isLoaded = false;
-  actions: Array<Action> = [];
+  actions: Action[] = [];
   filteredActions: Action[] = [];
-  categories: Array<Category> = [];
+  categories: Category[] = [];
 
   chartData = [];
   isFilterVisible = false;
 
   constructor(
+    private authService: AuthService,
     private actionsService: ActionsService,
     private recordsService: RecordsService
   ) { }
 
   ngOnInit() {
+    this.user = this.authService.getUserFromSession();
     this.getCategoryAndActions();
   }
 
@@ -36,11 +39,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onOpenFilter() {
+  onOpenFilter(): void {
     this.toggleFilter(true);
   }
 
-  onFilterApply(data) {
+  onFilterApply(data): void {
     const start = moment().startOf(data.period).startOf('d');
     const end = moment().endOf(data.period).endOf('d');
 
@@ -59,23 +62,25 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.calculateChartData();
   }
 
-  onFilterCancel() {
+  onFilterCancel(): void {
     this.toggleFilter(false);
     this.setActions();
     this.calculateChartData();
   }
 
-  private toggleFilter(visibility: boolean) {
+  private toggleFilter(visibility: boolean): void {
     this.isFilterVisible = visibility;
   }
 
   private getCategoryAndActions(): void {
+    if (!this.user) { return; }
+
     combineLatest(
-      this.actionsService.getActions(),
-      this.recordsService.getCategories()
+      this.actionsService.getActionsByUserId(this.user.id),
+      this.recordsService.getCategoriesByUserId(this.user.id)
     )
       .pipe(takeUntil(this.destroy$))
-      .subscribe((data: [Array<Action>, Array<Category>]) => {
+      .subscribe((data: [Action[], Category[]]) => {
         this.actions = data[0];
         this.categories = data[1];
         this.isLoaded = true;
@@ -95,7 +100,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setActions() {
+  private setActions(): void {
     this.filteredActions = [...this.actions];
   }
 }

@@ -3,7 +3,7 @@
     Planning page<span class="sparkline bar"></span>
   </h3>
 </div>
-<section *ngIf="isLoaded" class="section">
+<section *ngIf="isLoaded && categories.length; else emptyData" class="section">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -44,3 +44,9 @@
 <section *ngIf="!isLoaded" >
   Loading...
 </section>
+
+<ng-template #emptyData>
+  <app-alert [type]="'warning'" *ngIf="isLoaded">
+    You don't have any categories and actions
+  </app-alert>
+</ng-template>

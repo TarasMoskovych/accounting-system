@@ -26,6 +26,33 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.createLoginForm();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  onSubmit(): void {
+    const formData = this.form.value;
+    this.usersService.getUserByCredentials(formData.email, formData.password)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        if (data) {
+          this.authService.login(data);
+          this.router.navigate(['/system', 'bill']);
+        } else {
+          this.showMessage('User is not found!');
+        }
+      });
+  }
+
+  onHideAlert(): void {
+    this.message.text = '';
+  }
+
+  private createLoginForm(): void {
     this.message = new Message('danger', '');
     this.form = new FormGroup({
       email: new FormControl(null, {
@@ -43,30 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
-
-  onSubmit() {
-    const formData = this.form.value;
-    this.usersService.getUserByCredentials(formData.email, formData.password)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((data: any) => {
-        if (data) {
-          this.authService.login(data);
-          this.router.navigate(['/system', 'bill']);
-        } else {
-          this.showMessage('User is not found!');
-        }
-      });
-  }
-
-  onHideAlert() {
-    this.message.text = '';
-  }
-
-  private showMessage(text: string, type: string = 'danger') {
+  private showMessage(text: string, type: string = 'danger'): void {
     this.message = new Message(type, text);
   }
 }

@@ -11,7 +11,7 @@ import { Category, Message } from 'src/app/shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryComponent implements OnInit {
-  @Input() categories: Array<Category>;
+  @Input() categories: Category[];
   @Input() channel$: Observable<any>;
   @Output() addCategory = new EventEmitter<Category>();
   @Output() editCategory = new EventEmitter<Category>();
@@ -30,7 +30,7 @@ export class CategoryComponent implements OnInit {
     this.onCategoryChange();
   }
 
-  onCategoryChange() {
+  onCategoryChange(): void {
     const id = +this.selected.id;
 
     if (id !== 0) {
@@ -41,7 +41,7 @@ export class CategoryComponent implements OnInit {
     this.message.text = '';
   }
 
-  onRemove() {
+  onRemove(): void {
     if (+this.selected.id !== 0) {
       this.removeCategory.emit(this.selected.category);
       this.selected.id = 0;
@@ -49,7 +49,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     let { categoryName, limit } = form.value;
     const category = new Category(categoryName, limit > 0 ? limit : limit * -1);
 
@@ -72,11 +72,11 @@ export class CategoryComponent implements OnInit {
     });
   }
 
-  onHideAlert() {
+  onHideAlert(): void {
     this.message.text = '';
   }
 
-  private resetForm(form: NgForm) {
+  private resetForm(form: NgForm): void {
     form.reset();
     form.form.patchValue({ limit: 1 });
   }

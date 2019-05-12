@@ -5,6 +5,7 @@ export class Action {
     public category: number,
     public date: string,
     public description: string,
+    public userId?: number,
     public id?: number,
     public categoryName?: string
   ) { }

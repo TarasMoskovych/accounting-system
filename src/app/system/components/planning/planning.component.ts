@@ -14,11 +14,11 @@ import { User, Bill, Category, Action } from 'src/app/shared';
 export class PlanningComponent implements OnInit, OnDestroy {
   private user: User;
   private destroy$ = new Subject<boolean>();
-  private actions: Array<Action> = [];
+  private actions: Action[] = [];
 
   isLoaded = false;
   bill: Bill;
-  categories: Array<Category> = [];
+  categories: Category[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -41,11 +41,11 @@ export class PlanningComponent implements OnInit, OnDestroy {
   getData(): void {
     combineLatest(
       this.billService.getBillById(this.user.id),
-      this.recordsService.getCategories(),
-      this.actionServide.getActions()
+      this.recordsService.getCategoriesByUserId(this.user.id),
+      this.actionServide.getActionsByUserId(this.user.id)
     )
     .pipe(takeUntil(this.destroy$))
-    .subscribe((data: [Bill, Array<Category>, Array<Action>]) => {
+    .subscribe((data: [Bill, Category[], Action[]]) => {
       this.bill = data[0];
       this.categories = data[1];
       this.actions = data[2];

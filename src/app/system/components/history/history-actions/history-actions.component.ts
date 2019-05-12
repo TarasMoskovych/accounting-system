@@ -8,8 +8,8 @@ import { Action, Category } from 'src/app/shared';
   styleUrls: ['./history-actions.component.scss']
 })
 export class HistoryActionsComponent implements OnInit {
-  @Input() actions: Array<Action> = [];
-  @Input() categories: Array<Category> = [];
+  @Input() actions: Action[] = [];
+  @Input() categories: Category[] = [];
 
   readonly searchMap = {
     categoryName: 'Category',
@@ -24,11 +24,13 @@ export class HistoryActionsComponent implements OnInit {
 
   ngOnInit() {
     this.actions.forEach((action: Action) => {
-      action.categoryName = this.categories.find((category: Category) => category.id === action.id).name;
+      const category = this.categories.find((item: Category) => item.id === action.id);
+
+      if (category) { action.categoryName = category.name; }
     });
   }
 
-  onDropdownItemClick(field: string) {
+  onDropdownItemClick(field: string): void {
     this.searchPlaceholder = this.searchMap[field];
     this.searchField = field;
   }

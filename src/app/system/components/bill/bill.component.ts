@@ -48,7 +48,7 @@ export class BillComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onRefresh() {
+  onRefresh(): void {
     this.isLoaded = false;
     // this.billService.getCurrency()
     //   .pipe(takeUntil(this.destroy$))
@@ -77,7 +77,7 @@ export class BillComponent implements OnInit, OnDestroy {
     });
   }
 
-  private populateCurrency(currency: any) {
+  private populateCurrency(currency: any): any {
     const currencies = {};
     const { rates } = currency;
 
@@ -101,7 +101,7 @@ export class BillComponent implements OnInit, OnDestroy {
     return currencies;
   }
 
-  private calculateCurrency(rate: number) {
+  private calculateCurrency(rate: number): number {
     return this.bill.value * rate;
   }
 }

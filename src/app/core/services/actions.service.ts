@@ -17,12 +17,13 @@ export class ActionsService extends BaseHttpService {
     return this.post(null, action, { url: this.actionsUrl });
   }
 
-  getActions(): Observable<Array<Action>> {
-    return this.get(null, { url: this.actionsUrl });
+  getActionsByUserId(id: number): Observable<Action[]> {
+    const url = `${this.actionsUrl}/?userId=${id}`;
+    return this.get(null, { url });
   }
 
   getActionById(id: string): Observable<Action> {
     const url = `${this.actionsUrl}/?id=${id}`;
-    return this.get(null, { url }).pipe(map((action: Array<Action>) => action[0]) || null);
+    return this.get(null, { url }).pipe(map((action: Action[]) => action[0]) || null);
   }
 }

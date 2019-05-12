@@ -17,7 +17,7 @@ export class RecordsComponent implements OnInit, OnDestroy {
   private channel = new Subject();
   private destroy$ = new Subject<boolean>();
 
-  categories: Array<Category>;
+  categories: Category[];
   channel$ = this.channel.asObservable();
   isLoaded = false;
   message: Message;
@@ -44,8 +44,8 @@ export class RecordsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onAddCategory(category: Category) {
-    this.recordsService.createCategory(category)
+  onAddCategory(category: Category): void {
+    this.recordsService.createCategory({ ...category, userId: this.user.id })
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Category) => {
         this.categories = [...this.categories, data];
@@ -53,8 +53,8 @@ export class RecordsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onEditCategory(category: Category) {
-    this.recordsService.updateCategory(category)
+  onEditCategory(category: Category): void {
+    this.recordsService.updateCategory({ ...category, userId: this.user.id })
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: Category) => {
         const tmp = this.categories.filter((item: Category) => item.id !== data.id);
@@ -63,7 +63,7 @@ export class RecordsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onRemoveCategory(category: Category) {
+  onRemoveCategory(category: Category): void {
     this.recordsService.removeCategory(category.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
@@ -93,31 +93,31 @@ export class RecordsComponent implements OnInit, OnDestroy {
     this.updateBill(new Bill(result, this.bill.currency), action);
   }
 
-  onHideAlert() {
+  onHideAlert(): void {
     this.message.text = '';
   }
 
   private getCategories(): void {
-    this.recordsService.getCategories()
+    this.recordsService.getCategoriesByUserId(this.user.id)
       .pipe(takeUntil(this.destroy$))
-      .subscribe((categories: Array<Category>) => {
+      .subscribe((categories: Category[]) => {
         this.categories = categories;
         this.isLoaded = true;
       });
   }
 
-  private getBillById() {
+  private getBillById(): void {
     this.billService.getBillById(this.user.id).pipe(takeUntil(this.destroy$))
       .subscribe((data: Bill) => {
         this.bill = data;
       });
   }
 
-  private updateBill(bill: Bill, action: Action) {
+  private updateBill(bill: Bill, action: Action): void {
     this.billService.updateBill(bill, this.user.id)
       .pipe(
         takeUntil(this.destroy$),
-        switchMap(() => this.actionsService.createAction(action))
+        switchMap(() => this.actionsService.createAction({ ...action, userId: this.user.id }))
       )
       .subscribe(() => {
         this.bill.value = bill.value;

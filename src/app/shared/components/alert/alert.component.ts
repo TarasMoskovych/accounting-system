@@ -10,7 +10,7 @@ export class AlertComponent {
   @Input() type = 'danger';
   @Output() close = new EventEmitter<string>();
 
-  onClick() {
+  onClick(): void {
     this.close.emit('close');
   }
 }

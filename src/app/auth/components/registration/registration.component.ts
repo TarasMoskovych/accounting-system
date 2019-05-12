@@ -26,6 +26,39 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.createRegistrationForm();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
+
+  onSubmit(): void {
+    const { email, password, name, bill, currency } = this.form.value;
+    const user = new User(email, password, name);
+
+    this.usersService.createUser(user)
+      .pipe(
+        switchMap(() => {
+          return this.usersService.createEmail({ email });
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.authService.setUser(user);
+        this.billsService.createBill(new Bill(bill, currency, user.id))
+          .subscribe((data: Bill) => {
+            this.router.navigate(['/login'], {
+              queryParams: {
+                isRegistered: true
+              }
+            });
+          });
+      });
+  }
+
+  private createRegistrationForm(): void {
     this.form = new FormGroup({
       email: new FormControl(null, {
         validators: [Validators.required, Validators.email],
@@ -49,34 +82,5 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       }),
       agreement: new FormControl(false, [Validators.required, Validators.requiredTrue])
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next(true);
-    this.destroy$.complete();
-  }
-
-  onSubmit() {
-    const { email, password, name, bill, currency } = this.form.value;
-    const user = new User(email, password, name);
-
-    this.usersService.createUser(user)
-      .pipe(
-        switchMap(() => {
-          return this.usersService.createEmail({ email });
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.authService.setUser(user);
-        this.billsService.createBill(new Bill(bill, currency, user.id))
-          .subscribe((data: Bill) => {
-            this.router.navigate(['/login'], {
-              queryParams: {
-                isRegistered: true
-              }
-            });
-          });
-      });
   }
 }

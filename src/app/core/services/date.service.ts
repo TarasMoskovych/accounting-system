@@ -9,8 +9,6 @@ import { CoreModule } from 'src/app/core/core.module';
 })
 export class DateService {
 
-  constructor() { }
-
   getDate$(ms = 1000) {
     return timer(0, ms).pipe(switchMap(() => of(this.getDate())));
   }

@@ -42,7 +42,7 @@ export class HistoryFilterComponent {
     }
   ];
 
-  onFilterApply() {
+  onFilterApply(): void {
     this.filterApply.emit({
       categories: this.selectedCategories,
       period: this.selectedPeriod,
@@ -50,22 +50,22 @@ export class HistoryFilterComponent {
     });
   }
 
-  onFilterCancel() {
+  onFilterCancel(): void {
     this.selectedCategories = [];
     this.selectedTypes = [];
     this.selectedPeriod = 'd';
     this.filterCancel.emit(true);
   }
 
-  onTypeChange({ checked, value }) {
+  onTypeChange({ checked, value }): void {
     this.handleCheckboxes('selectedTypes', checked, value);
   }
 
-  onCategoryChange({ checked, value }) {
+  onCategoryChange({ checked, value }): void {
     this.handleCheckboxes('selectedCategories', checked, value);
   }
 
-  private handleCheckboxes(field: string, checked: boolean, value: string) {
+  private handleCheckboxes(field: string, checked: boolean, value: string): void {
     if (checked) {
       if (!this[field].includes(value)) {
         this[field].push(value);

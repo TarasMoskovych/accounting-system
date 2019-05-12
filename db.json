@@ -24,17 +24,20 @@
     {
       "name": "House",
       "limit": 150,
-      "id": 1
+      "id": 1,
+      "userId": 1
     },
     {
       "name": "Food",
       "limit": 100,
-      "id": 2
+      "id": 2,
+      "userId": 1
     },
     {
       "name": "Car",
       "limit": 199,
-      "id": 3
+      "id": 3,
+      "userId": 1
     }
   ],
   "events": [
@@ -44,7 +47,8 @@
       "amount": 100,
       "category": 2,
       "date": "02.05.2019 15:29:02",
-      "description": "Birthday"
+      "description": "Birthday",
+      "userId": 1
     },
     {
       "id": 2,
@@ -52,7 +56,8 @@
       "amount": 120,
       "category": 1,
       "date": "08.05.2019 12:10:00",
-      "description": "Buy staff"
+      "description": "Buy staff",
+      "userId": 1
     }
   ]
 }

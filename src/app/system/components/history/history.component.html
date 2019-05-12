@@ -11,7 +11,7 @@
 
 <div *ngIf="!isLoaded" class="text-center">Loading...</div>
 
-<div *ngIf="isLoaded">
+<div *ngIf="isLoaded && actions.length; else emptyData">
   <app-history-chart [data]="chartData"></app-history-chart>
   <app-history-actions [actions]="filteredActions" [categories]="categories"></app-history-actions>
 
@@ -23,3 +23,9 @@
     ></app-history-filter>
   </ng-container>
 </div>
+
+<ng-template #emptyData>
+  <app-alert [type]="'warning'" *ngIf="isLoaded">
+    You don't have any actions
+  </app-alert>
+</ng-template>

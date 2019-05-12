@@ -11,7 +11,7 @@ import { Category, Action } from 'src/app/shared';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionComponent {
-  @Input() categories: Array<Category> = [];
+  @Input() categories: Category[] = [];
   @Output() addAction = new EventEmitter<Action | NgForm>();
   @ViewChild('form') form: NgForm;
 
@@ -26,7 +26,7 @@ export class ActionComponent {
     }
   ];
 
-  onSubmit(form: NgForm) {
+  onSubmit(form: NgForm): void {
     let { amount, description, category, type } = form.value;
 
     if (amount < 0) { amount = Math.abs(amount); }

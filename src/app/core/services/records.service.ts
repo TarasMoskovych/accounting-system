@@ -26,17 +26,18 @@ export class RecordsService extends BaseHttpService {
     return this.delete(null, { url });
   }
 
-  getCategories(): Observable<Array<Category>> {
-    return this.get(null, { url: this.categoriesUrl });
+  getCategoriesByUserId(id: number): Observable<Category[]> {
+    const url = `${this.categoriesUrl}/?userId=${id}`;
+    return this.get(null, { url });
   }
 
   getCategoryById(id: number): Observable<Category> {
     const url = `${this.categoriesUrl}/?id=${id}`;
-    return this.get(null, { url }).pipe(map((data: Array<Category>) => data[0]) || null);
+    return this.get(null, { url }).pipe(map((data: Category[]) => data[0]) || null);
   }
 
-  checkCategories(category: string): Observable<any> {
-    const url = `${this.categoriesUrl}/?name=${category}`;
-    return this.get(null, { url }).pipe(map((data: Array<Category>) => data[0]) || null);
+  checkCategories(category: string, userId: number): Observable<Category> {
+    const url = `${this.categoriesUrl}/?name=${category}&userId=${userId}`;
+    return this.get(null, { url }).pipe(map((data: Category[]) => data[0]) || null);
   }
 }
