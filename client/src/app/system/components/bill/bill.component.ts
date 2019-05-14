@@ -3,21 +3,10 @@ import { combineLatest, of, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
 
 import { AuthService, BillService } from 'src/app/core/services';
-import { User, Bill, currencyClasses } from 'src/app/shared';
+import { User, Bill, currencyClasses, currencies } from 'src/app/shared/models';
 
-const mockData = {
-  rates: {
-    CAD: 1.504864,
-    EUR: 1,
-    PLN: 4.283689,
-    RUB: 71.776051,
-    UAH: 30.242455,
-    USD: 1.125258
-  },
-  date: '2019-04-22'
-};
-
-const mockData$ = of(mockData);
+// TODO: remove after http://data.fixer.io/api migration
+const mockData$ = of(currencies);
 
 @Component({
   selector: 'app-bill',

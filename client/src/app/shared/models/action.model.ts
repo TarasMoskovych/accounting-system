@@ -10,3 +10,36 @@ export class Action {
     public categoryName?: string
   ) { }
 }
+
+export const actionTypes = [
+  {
+    type: 'income',
+    label: 'Income'
+  },
+  {
+    type: 'outcome',
+    label: 'Outcome'
+  }
+];
+
+export const actionTimePeriods = [
+  {
+    type: 'd',
+    label: 'Day'
+  },
+  {
+    type: 'w',
+    label: 'Week'
+  },
+  {
+    type: 'M',
+    label: 'Month'
+  }
+];
+
+export const searchMap = {
+  categoryName: 'Category',
+  date: 'Date',
+  amount: 'Price',
+  type: 'Type'
+};

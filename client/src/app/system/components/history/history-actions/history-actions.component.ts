@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Action, Category } from 'src/app/shared';
+import { Action, Category, searchMap } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-history-actions',
@@ -11,13 +11,7 @@ export class HistoryActionsComponent implements OnInit {
   @Input() actions: Action[] = [];
   @Input() categories: Category[] = [];
 
-  readonly searchMap = {
-    categoryName: 'Category',
-    date: 'Date',
-    amount: 'Price',
-    type: 'Type'
-  };
-
+  readonly searchMap = searchMap;
   searchValue = '';
   searchPlaceholder = 'Price';
   searchField = 'amount';

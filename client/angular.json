@@ -28,9 +28,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/font-awesome/css/font-awesome.css",
-              "src/assets/styles/vendor.css",
-              "src/assets/styles/theme.css"
+              "./node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true
@@ -88,9 +86,7 @@
             "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/styles.scss",
-              "./node_modules/font-awesome/css/font-awesome.css",
-              "src/assets/styles/vendor.css",
-              "src/assets/styles/theme.css"
+              "./node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [],
             "assets": [

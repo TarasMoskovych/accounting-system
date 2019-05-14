@@ -1,63 +1,7 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "email": "abc@mail.com",
-      "password": "12345678",
-      "name": "Admin"
-    }
-  ],
-  "emails": [
-    {
-      "id": 1,
-      "email": "abc@mail.com"
-    }
-  ],
-  "bills": [
-    {
-      "value": 1000,
-      "currency": "EUR",
-      "id": 1
-    }
-  ],
-  "categories": [
-    {
-      "name": "House",
-      "limit": 150,
-      "id": 1,
-      "userId": 1
-    },
-    {
-      "name": "Food",
-      "limit": 100,
-      "id": 2,
-      "userId": 1
-    },
-    {
-      "name": "Car",
-      "limit": 199,
-      "id": 3,
-      "userId": 1
-    }
-  ],
-  "events": [
-    {
-      "id": 1,
-      "type": "income",
-      "amount": 100,
-      "category": 2,
-      "date": "02.05.2019 15:29:02",
-      "description": "Birthday",
-      "userId": 1
-    },
-    {
-      "id": 2,
-      "type": "outcome",
-      "amount": 120,
-      "category": 1,
-      "date": "08.05.2019 12:10:00",
-      "description": "Buy staff",
-      "userId": 1
-    }
-  ]
+  "users": [],
+  "emails": [],
+  "bills": [],
+  "categories": [],
+  "events": []
 }

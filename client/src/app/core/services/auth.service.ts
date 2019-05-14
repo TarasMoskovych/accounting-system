@@ -15,11 +15,13 @@ export class AuthService {
 
   login(user: User) {
     sessionStorage.setItem('user', JSON.stringify(user));
+    document.cookie = `userId=${user.id};`;
     this.isAuthenticated = true;
   }
 
   logout() {
     sessionStorage.removeItem('user');
+    document.cookie = 'userId=; Max-Age=0';
     this.isAuthenticated = false;
     this.router.navigate(['/login']);
   }

@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 
-import { Category } from 'src/app/shared/models';
+import { Category, actionTypes, actionTimePeriods } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-history-filter',
@@ -12,35 +12,12 @@ export class HistoryFilterComponent {
   @Output() filterApply = new EventEmitter();
   @Output() filterCancel = new EventEmitter<boolean>();
 
+  timePeriods = actionTimePeriods;
+  types = actionTypes;
+
   selectedPeriod = 'd';
   selectedTypes = [];
   selectedCategories = [];
-
-  timePeriods = [
-    {
-      type: 'd',
-      label: 'Day'
-    },
-    {
-      type: 'w',
-      label: 'Week'
-    },
-    {
-      type: 'M',
-      label: 'Month'
-    }
-  ];
-
-  types = [
-    {
-      type: 'income',
-      label: 'Income'
-    },
-    {
-      type: 'outcome',
-      label: 'Outcome'
-    }
-  ];
 
   onFilterApply(): void {
     this.filterApply.emit({

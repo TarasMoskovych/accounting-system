@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, ViewCh
 import { NgForm } from '@angular/forms';
 import * as moment from 'moment';
 
-import { Category, Action } from 'src/app/shared';
+import { Category, Action, actionTypes } from 'src/app/shared/models';
 
 @Component({
   selector: 'app-action',
@@ -15,16 +15,7 @@ export class ActionComponent {
   @Output() addAction = new EventEmitter<Action | NgForm>();
   @ViewChild('form') form: NgForm;
 
-  types = [
-    {
-      type: 'income',
-      label: 'Income'
-    },
-    {
-      type: 'outcome',
-      label: 'Outcome'
-    }
-  ];
+  types = actionTypes;
 
   onSubmit(form: NgForm): void {
     let { amount, description, category, type } = form.value;
