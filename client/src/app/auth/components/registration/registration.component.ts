@@ -76,7 +76,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         validators: [Validators.required],
         updateOn: 'blur'
       }),
-      bill: new FormControl(0, {
+      bill: new FormControl(1, {
         validators: [Validators.required, Validators.minLength(0)],
         updateOn: 'blur'
       }),

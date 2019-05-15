@@ -5,8 +5,7 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { AuthService, BillService } from 'src/app/core/services';
 import { User, Bill, currencyClasses, currencies } from 'src/app/shared/models';
 
-// TODO: remove after http://data.fixer.io/api migration
-const mockData$ = of(currencies);
+// const mockData$ = of(currencies);
 
 @Component({
   selector: 'app-bill',
@@ -39,24 +38,24 @@ export class BillComponent implements OnInit, OnDestroy {
 
   onRefresh(): void {
     this.isLoaded = false;
-    // this.billService.getCurrency()
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe((currency) => {
-    //     this.currency = currency;
-    //     this.isLoaded = true;
-    //   });
-
-    mockData$
-      .pipe(delay(1000), takeUntil(this.destroy$))
+    this.billService.getCurrency()
+      .pipe(takeUntil(this.destroy$))
       .subscribe((currency) => {
         this.currency = currency;
-        this.currencies = this.populateCurrency(this.currency);
         this.isLoaded = true;
-    });
+      });
+
+    // mockData$
+    //   .pipe(delay(1000), takeUntil(this.destroy$))
+    //   .subscribe((currency) => {
+    //     this.currency = currency;
+    //     this.currencies = this.populateCurrency(this.currency);
+    //     this.isLoaded = true;
+    // });
   }
 
   private getCurrency(): void {
-    combineLatest(this.billService.getBillById(this.user.id), mockData$ /* this.billService.getCurrency() */)
+    combineLatest(this.billService.getBillById(this.user.id),/* mockData$ */ this.billService.getCurrency())
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: [Bill, any]) => {
         this.bill = data[0];
