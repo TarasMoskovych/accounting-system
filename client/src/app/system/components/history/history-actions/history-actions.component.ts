@@ -18,7 +18,7 @@ export class HistoryActionsComponent implements OnInit {
 
   ngOnInit() {
     this.actions.forEach((action: Action) => {
-      const category = this.categories.find((item: Category) => item.id === action.id);
+      const category = this.categories.find((item: Category) => item.id === action.category);
 
       if (category) { action.categoryName = category.name; }
     });

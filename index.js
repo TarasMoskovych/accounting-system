@@ -12,89 +12,79 @@ const middlewares = jsonServer.defaults();
 server.use(express.static('client/dist/accounting-system'));
 server.get('*', (req, res, next) => {
 
-    if (req.url.includes('users')) {
-        if (req.query && req.query.email && req.query.password) {
-            next();
-            return;
-        } else {
-            return reject(res);
-        }
+  if (req.url.includes('users')) {
+    if (req.query && req.query.email && req.query.password) {
+      next();
+      return;
+    } else {
+      return reject(res);
     }
+  }
 
-    if (req.url.includes('bills')) {
-        const userId = getUserId(req, res);
-
-        if (req.query && req.query.id && req.query.id === userId) {
-            next();
-            return;
-        } else {
-            return reject(res);
-        }
-    }
-
-    if (checkApi(req.url)) {
-        next();
-        return;
-    }
-
-    redirectToLoginPage(res);
-});
-
-server.post('*', (req, res, next) => {
+  if (req.url.includes('bills')) {
     const userId = getUserId(req, res);
 
-    if (!userId) {
-        return reject(res);
+    if (req.query && req.query.id && req.query.id === userId) {
+      next();
+      return;
+    } else {
+      return reject(res);
     }
+  }
 
+  if (checkApi(req.url)) {
     next();
+    return;
+  }
+
+  redirectToLoginPage(res);
 });
 
 server.put('*', (req, res, next) => {
-    const userId = getUserId(req, res, next);
+  const userId = getUserId(req, res, next);
 
-    if (!userId) {
-        return reject(res);
-    }
+  if (!userId) {
+    return reject(res);
+  }
 
-    next();
+  next();
 });
 
 server.delete('*', (req, res, next) => {
-    const userId = getUserId(req, res);
+  const userId = getUserId(req, res);
 
-    if (!userId) {
-        return reject(res);
-    }
+  if (!userId) {
+    return reject(res);
+  }
 
-    next();
+  next();
 });
 
 server.use(router);
 server.use(middlewares);
 
 server.listen(port, () => {
-    console.log(`Started on port: ${port}`);
+  console.log(`Started on port: ${port}`);
 });
 
 function getUserId(req, res) {
-    const cookies = new Cookies(req, res);
-    return cookies.get('userId');
+  const cookies = new Cookies(req, res);
+  return cookies.get('userId');
 }
 
 function reject(res) {
-    res.sendStatus(401);
-    redirectToLoginPage(res);
+  res.sendStatus(401);
+  redirectToLoginPage(res);
 }
 
 function redirectToLoginPage(res) {
-    res.sendFile(
-        path.resolve(
-            __dirname, 'client', 'dist', 'accounting-system', 'index.html'
-        )
-    );
+  res.sendFile(
+    path.resolve(
+      __dirname, 'client', 'dist', 'accounting-system', 'index.html'
+    )
+  );
 }
 
 function checkApi(url) {
-    return api.some(item => url.includes(item));
+  return api.some(item => url.includes(item));
 }
